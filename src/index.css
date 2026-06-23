@@ -1,0 +1,1436 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Self-hosted fonts — bundled so the app works fully offline
+   (LogWise is offline-first; no Google CDN dependency at runtime).
+   ============================================================ */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/inter-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/fonts/inter-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/inter-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/inter-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Material Icons Outlined';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('./assets/fonts/material-icons-outlined.woff2') format('woff2');
+}
+
+.material-icons-outlined {
+  font-family: 'Material Icons Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   LogWise — Apple Human Interface Guidelines Design System
+   Inspired by macOS Sequoia Dark Mode
+   ============================================================ */
+
+:root {
+  /* Apple System Colors */
+  --apple-blue: #0A84FF;
+  --apple-blue-dim: rgba(10, 132, 255, 0.15);
+  --apple-blue-ring: rgba(10, 132, 255, 0.4);
+  --apple-green: #30D158;
+  --apple-orange: #FF9F0A;
+  --apple-red: #FF453A;
+  --apple-yellow: #FFD60A;
+  --apple-indigo: #5E5CE6;
+  --apple-pink: #FF375F;
+  --apple-teal: #64D2FF;
+  --apple-gray: #8E8E93;
+
+  /* Surface Materials (macOS layered materials) */
+  --surface: #000000;
+  --surface-primary: #1C1C1E;
+  --surface-secondary: #2C2C2E;
+  --surface-tertiary: #3A3A3C;
+  --surface-quaternary: #48484A;
+  --surface-elevated: rgba(44, 44, 46, 0.82);
+
+  /* Vibrancy material */
+  --material-toolbar: rgba(28, 28, 30, 0.72);
+  --material-sidebar: rgba(28, 28, 30, 0.65);
+  --material-popover: rgba(44, 44, 46, 0.92);
+  --material-hud: rgba(44, 44, 46, 0.85);
+  --material-search: rgba(118, 118, 128, 0.24);
+
+  /* Label hierarchy */
+  --label-primary: #FFFFFF;
+  --label-secondary: rgba(235, 235, 245, 0.6);
+  --label-tertiary: rgba(235, 235, 245, 0.3);
+  --label-quaternary: rgba(235, 235, 245, 0.18);
+
+  /* Separators */
+  --separator: #38383A;
+  --separator-translucent: rgba(84, 84, 88, 0.65);
+
+  /* Elevation */
+  --shadow-card: rgba(0, 0, 0, 0.25);
+
+  /* Fill hierarchy */
+  --fill-primary: rgba(120, 120, 128, 0.36);
+  --fill-secondary: rgba(120, 120, 128, 0.32);
+  --fill-tertiary: rgba(118, 118, 128, 0.24);
+  --fill-quaternary: rgba(118, 118, 128, 0.18);
+
+  /* Tints — translucent fills derived from the system colors (single source of
+     truth; used by type badges, dashboard icons, hover states). */
+  --tint-strength: 15%;
+  --tint-blue: color-mix(in srgb, var(--apple-blue) var(--tint-strength), transparent);
+  --tint-green: color-mix(in srgb, var(--apple-green) var(--tint-strength), transparent);
+  --tint-orange: color-mix(in srgb, var(--apple-orange) var(--tint-strength), transparent);
+  --tint-red: color-mix(in srgb, var(--apple-red) var(--tint-strength), transparent);
+  --tint-yellow: color-mix(in srgb, var(--apple-yellow) var(--tint-strength), transparent);
+  --tint-indigo: color-mix(in srgb, var(--apple-indigo) var(--tint-strength), transparent);
+  --tint-pink: color-mix(in srgb, var(--apple-pink) var(--tint-strength), transparent);
+  --tint-teal: color-mix(in srgb, var(--apple-teal) var(--tint-strength), transparent);
+  --tint-gray: color-mix(in srgb, var(--apple-gray) var(--tint-strength), transparent);
+
+  /* Semantic aliases */
+  --primary: var(--apple-blue);
+  --success: var(--apple-green);
+  --warning: var(--apple-orange);
+  --error: var(--apple-red);
+  --on-surface: var(--label-primary);
+  --on-surface-variant: var(--label-secondary);
+  --outline: var(--apple-gray);
+  --outline-variant: var(--separator);
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+
+  /* Spacing (8pt grid) */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Radii (Apple continuous corners) */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Animation (Apple curves) */
+  --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.15s;
+  --duration-normal: 0.25s;
+  --duration-slow: 0.35s;
+}
+
+/* --- Light mode --- */
+[data-theme="light"] {
+  --surface: #FFFFFF;
+  --surface-primary: #F2F2F7;
+  --surface-secondary: #FFFFFF;
+  --surface-tertiary: #E5E5EA;
+  --surface-quaternary: #D1D1D6;
+  --surface-elevated: rgba(255, 255, 255, 0.92);
+
+  --material-toolbar: rgba(242, 242, 247, 0.72);
+  --material-sidebar: rgba(242, 242, 247, 0.65);
+  --material-popover: rgba(255, 255, 255, 0.95);
+  --material-hud: rgba(255, 255, 255, 0.9);
+  --material-search: rgba(118, 118, 128, 0.12);
+
+  --label-primary: #000000;
+  --label-secondary: rgba(60, 60, 67, 0.6);
+  --label-tertiary: rgba(60, 60, 67, 0.3);
+  --label-quaternary: rgba(60, 60, 67, 0.18);
+
+  --separator: rgba(60, 60, 67, 0.12);
+  --separator-translucent: rgba(60, 60, 67, 0.29);
+  --shadow-card: rgba(0, 0, 0, 0.08);
+
+  --fill-primary: rgba(120, 120, 128, 0.2);
+  --fill-secondary: rgba(120, 120, 128, 0.16);
+  --fill-tertiary: rgba(118, 118, 128, 0.12);
+  --fill-quaternary: rgba(118, 118, 128, 0.08);
+
+  --apple-blue: #007AFF;
+  --apple-blue-dim: rgba(0, 122, 255, 0.12);
+  --apple-blue-ring: rgba(0, 122, 255, 0.35);
+  --apple-green: #34C759;
+  --apple-orange: #FF9500;
+  --apple-red: #FF3B30;
+  --apple-indigo: #5856D6;
+  --apple-gray: #8E8E93;
+
+  --primary: var(--apple-blue);
+  --on-surface: var(--label-primary);
+  --on-surface-variant: var(--label-secondary);
+  --outline: var(--apple-gray);
+  --outline-variant: var(--separator);
+}
+
+/* ============================================================
+   Base Reset
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--surface);
+  color: var(--label-primary);
+  font-size: 13px;
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  transition: background-color var(--duration-normal) var(--ease-apple),
+              color var(--duration-normal) var(--ease-apple);
+}
+
+::selection {
+  background: var(--apple-blue-dim);
+  color: var(--label-primary);
+}
+
+/* ============================================================
+   App Layout
+   ============================================================ */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* ============================================================
+   Top Bar — Apple Vibrancy Toolbar
+   ============================================================ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-8) var(--space-20);
+  height: 52px;
+  background: var(--material-toolbar);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 0.5px solid var(--separator-translucent);
+  z-index: 50;
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+  transition: background-color var(--duration-normal) var(--ease-apple);
+}
+
+.top-bar > * {
+  -webkit-app-region: no-drag;
+}
+
+.top-bar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-shrink: 0;
+}
+
+.top-bar__logo {
+  width: 30px;
+  height: 30px;
+  background: var(--apple-blue);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+}
+
+.top-bar__title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--label-primary);
+}
+
+.top-bar__search {
+  flex: 1;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.top-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Search — Apple Pill Search Field
+   ============================================================ */
+.search-input {
+  position: relative;
+  width: 100%;
+}
+
+.search-input__icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--label-tertiary);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.search-input__field {
+  width: 100%;
+  padding: 6px 12px 6px 34px;
+  height: 32px;
+  background: var(--material-search);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--label-primary);
+  font-family: var(--font-family);
+  font-size: 13px;
+  outline: none;
+  transition: all var(--duration-fast) var(--ease-apple);
+}
+
+.search-input__field::placeholder {
+  color: var(--label-tertiary);
+}
+
+.search-input__field:focus {
+  background: var(--fill-secondary);
+  box-shadow: 0 0 0 3px var(--apple-blue-ring);
+}
+
+/* ============================================================
+   Buttons — Apple Style
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--fill-tertiary);
+  color: var(--label-primary);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-apple);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:hover {
+  background: var(--fill-secondary);
+}
+
+.btn:active {
+  transform: scale(0.97);
+  opacity: 0.8;
+}
+
+.btn--primary {
+  background: var(--apple-blue);
+  color: white;
+}
+
+.btn--primary:hover {
+  background: color-mix(in srgb, var(--apple-blue) 88%, black);
+}
+
+.btn--danger {
+  background: var(--apple-red);
+  color: white;
+}
+
+.btn--danger:hover {
+  background: color-mix(in srgb, var(--apple-red) 88%, black);
+}
+
+.btn--icon {
+  padding: 5px;
+  width: 28px;
+  height: 28px;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: transparent;
+}
+
+.btn--icon:hover {
+  background: var(--fill-tertiary);
+}
+
+.btn--icon-active .material-icons-outlined {
+  color: var(--apple-blue);
+}
+
+.btn .material-icons-outlined {
+  font-size: 16px;
+}
+
+/* ============================================================
+   Filter Bar — Apple Grouped Style
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-20);
+  height: 44px;
+  background: var(--surface-primary);
+  border-bottom: 0.5px solid var(--separator);
+  flex-shrink: 0;
+  overflow-x: auto;
+  transition: all var(--duration-normal) var(--ease-apple);
+}
+
+.filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-bar--collapsed {
+  height: 0;
+  padding: 0 var(--space-20);
+  overflow: hidden;
+  border-bottom: none;
+  opacity: 0;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-apple);
+  white-space: nowrap;
+  border: none;
+  background: var(--fill-tertiary);
+  color: var(--label-secondary);
+  font-family: var(--font-family);
+  user-select: none;
+}
+
+.filter-chip:hover {
+  background: var(--fill-secondary);
+  color: var(--label-primary);
+}
+
+.filter-chip:active {
+  transform: scale(0.96);
+}
+
+.filter-chip--active {
+  background: var(--apple-blue-dim);
+  color: var(--apple-blue);
+}
+
+.filter-chip--active:hover {
+  background: rgba(10, 132, 255, 0.22);
+}
+
+.filter-input {
+  padding: 4px 10px;
+  height: 26px;
+  background: var(--material-search);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--label-primary);
+  font-family: var(--font-family);
+  font-size: 12px;
+  outline: none;
+  width: 120px;
+  transition: all var(--duration-fast) var(--ease-apple);
+}
+
+.filter-input:focus {
+  box-shadow: 0 0 0 2px var(--apple-blue-ring);
+  background: var(--fill-secondary);
+}
+
+.filter-input::placeholder {
+  color: var(--label-tertiary);
+}
+
+.filter-input--amount {
+  width: 80px;
+}
+
+.filter-bar__sep-label {
+  color: var(--outline);
+  font-size: 12px;
+}
+
+.filter-chip__icon {
+  font-size: 14px;
+}
+
+.filter-select {
+  padding: 4px 10px;
+  height: 26px;
+  background: var(--material-search);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--label-primary);
+  font-family: var(--font-family);
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238E8E93' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+.filter-select:focus {
+  box-shadow: 0 0 0 2px var(--apple-blue-ring);
+}
+
+.filter-separator {
+  width: 0.5px;
+  height: 20px;
+  background: var(--separator-translucent);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   AG Grid — Apple Data Table Theme
+   ============================================================ */
+.ag-theme-logwise {
+  --ag-background-color: var(--surface-primary);
+  --ag-foreground-color: var(--label-primary);
+  --ag-header-background-color: var(--surface-secondary);
+  --ag-header-foreground-color: var(--label-secondary);
+  --ag-border-color: var(--separator);
+  --ag-row-border-color: var(--separator);
+  --ag-odd-row-background-color: transparent;
+  --ag-row-hover-color: rgba(255, 255, 255, 0.04);
+  --ag-selected-row-background-color: var(--apple-blue-dim);
+  --ag-range-selection-border-color: var(--apple-blue);
+  --ag-input-focus-border-color: var(--apple-blue);
+  --ag-cell-horizontal-padding: 12px;
+  --ag-header-height: 36px;
+  --ag-row-height: 36px;
+  --ag-font-family: var(--font-family);
+  --ag-font-size: 13px;
+  --ag-alpine-active-color: var(--apple-blue);
+
+  flex: 1;
+  width: 100%;
+}
+
+.ag-theme-logwise .ag-root-wrapper {
+  border: none;
+  border-radius: 0;
+}
+
+.ag-theme-logwise .ag-header {
+  border-bottom: 0.5px solid var(--separator);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--label-secondary);
+}
+
+.ag-theme-logwise .ag-header-cell {
+  border-right: 0.5px solid rgba(56, 56, 58, 0.5);
+}
+
+.ag-theme-logwise .ag-cell {
+  border-right: 0.5px solid rgba(56, 56, 58, 0.25);
+  display: flex;
+  align-items: center;
+  color: var(--label-primary);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.ag-theme-logwise .ag-row {
+  border-bottom: 0.5px solid var(--separator);
+  transition: background-color var(--duration-fast) var(--ease-apple);
+}
+
+.ag-theme-logwise .ag-cell-focus:not(.ag-cell-range-selected) {
+  border-color: var(--apple-blue) !important;
+  box-shadow: inset 0 0 0 1.5px var(--apple-blue);
+}
+
+.ag-theme-logwise .ag-cell-inline-editing {
+  background: var(--surface-secondary) !important;
+  box-shadow: 0 0 0 2px var(--apple-blue-ring);
+  border-radius: 0;
+}
+
+.ag-theme-logwise .ag-row-pinned-bottom {
+  background: var(--surface-secondary) !important;
+  border-top: 1px solid var(--apple-blue);
+}
+
+.ag-theme-logwise .ag-input-field-input {
+  background: var(--surface-secondary) !important;
+  color: var(--label-primary) !important;
+  border: none !important;
+  font-family: var(--font-family) !important;
+}
+
+/* Type badges — Apple tinted tags */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Type badges derive their fill from the shared tint tokens and their text
+   from the matching system color — no duplicated literals. */
+.type-badge--jcb { background: var(--tint-orange); color: var(--apple-orange); }
+.type-badge--bricks { background: var(--tint-red); color: var(--apple-red); }
+.type-badge--sand { background: var(--tint-yellow); color: var(--apple-yellow); }
+.type-badge--labour { background: var(--tint-blue); color: var(--apple-blue); }
+.type-badge--concrete { background: var(--tint-gray); color: var(--apple-gray); }
+.type-badge--diesel { background: var(--tint-green); color: var(--apple-green); }
+.type-badge--transport { background: var(--tint-indigo); color: var(--apple-indigo); }
+.type-badge--rental { background: var(--tint-pink); color: var(--apple-pink); }
+.type-badge--other { background: var(--tint-gray); color: var(--apple-gray); }
+
+/* ============================================================
+   Status Bar — Apple-style Footer
+   ============================================================ */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-20);
+  height: 28px;
+  background: var(--surface-primary);
+  border-top: 0.5px solid var(--separator);
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--label-secondary);
+  transition: background-color var(--duration-normal) var(--ease-apple);
+}
+
+.status-bar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+.status-bar__item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-bar__label {
+  color: var(--label-tertiary);
+}
+
+.status-bar__value {
+  color: var(--label-primary);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.status-bar__value--accent {
+  color: var(--apple-blue);
+}
+
+.status-bar__value--success {
+  color: var(--apple-green);
+}
+
+.status-bar__pager {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.status-bar__pager-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--fill-tertiary);
+  color: var(--label-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-apple);
+}
+
+.status-bar__pager-btn:hover:not(:disabled) {
+  background: var(--fill-secondary);
+  color: var(--label-primary);
+}
+
+.status-bar__pager-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.status-bar__pager-btn .material-icons-outlined {
+  font-size: 16px;
+}
+
+/* ============================================================
+   Dropdown — Apple Popover Menu
+   ============================================================ */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 200px;
+  background: var(--material-popover);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35),
+              0 0 0 0.5px rgba(255, 255, 255, 0.06);
+  z-index: 100;
+  overflow: hidden;
+  padding: var(--space-4);
+  animation: popover-in var(--duration-fast) var(--ease-spring);
+}
+
+[data-theme="light"] .dropdown__menu {
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15),
+              0 0 0 0.5px rgba(0, 0, 0, 0.04);
+}
+
+.dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  height: 32px;
+  font-size: 13px;
+  color: var(--label-primary);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-apple);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-family);
+  border-radius: var(--radius-sm);
+}
+
+.dropdown__item:hover {
+  background: var(--apple-blue);
+  color: white;
+}
+
+.dropdown__item:hover .material-icons-outlined {
+  color: white;
+}
+
+.dropdown__item .material-icons-outlined {
+  font-size: 16px;
+  color: var(--label-secondary);
+  transition: color var(--duration-fast) var(--ease-apple);
+}
+
+.dropdown__separator {
+  height: 0.5px;
+  background: var(--separator-translucent);
+  margin: var(--space-4) var(--space-8);
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ============================================================
+   Modal — Apple Alert Dialog
+   ============================================================ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: backdrop-in var(--duration-fast) var(--ease-apple);
+}
+
+.modal {
+  width: 360px;
+  max-width: calc(100vw - 48px);
+  background: var(--material-popover);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  border: 0.5px solid var(--separator-translucent);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  padding: var(--space-24);
+  text-align: center;
+  animation: popover-in var(--duration-normal) var(--ease-spring);
+}
+
+.modal__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--label-primary);
+  margin-bottom: var(--space-8);
+}
+
+.modal__message {
+  font-size: 13px;
+  color: var(--label-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-20);
+}
+
+.modal__actions {
+  display: flex;
+  gap: var(--space-8);
+  justify-content: center;
+}
+
+.modal__actions .btn {
+  min-width: 96px;
+  height: 32px;
+  justify-content: center;
+}
+
+.modal--wide {
+  width: 420px;
+  text-align: left;
+}
+
+.shortcuts {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--space-20);
+}
+
+.shortcuts__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-8) 0;
+  border-bottom: 0.5px solid var(--separator);
+}
+
+.shortcuts__row:last-child {
+  border-bottom: none;
+}
+
+.shortcuts__action {
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+.shortcuts__keys {
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--label-primary);
+  background: var(--fill-tertiary);
+  border: 0.5px solid var(--separator-translucent);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================================================
+   Toast — Apple HUD Notification
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 44px;
+  right: 24px;
+  padding: 10px 16px;
+  background: var(--material-hud);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  color: var(--label-primary);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  animation: toast-in var(--duration-normal) var(--ease-spring);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+[data-theme="light"] .toast {
+  border: 0.5px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.toast--success {
+  border-left: 2px solid var(--apple-green);
+}
+
+.toast--error {
+  border-left: 2px solid var(--apple-red);
+}
+
+.toast__icon {
+  font-size: 16px;
+}
+
+.toast--success .toast__icon {
+  color: var(--apple-green);
+}
+
+.toast--error .toast__icon {
+  color: var(--apple-red);
+}
+
+.toast__action {
+  margin-left: var(--space-8);
+  padding: 2px 10px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--apple-blue);
+  color: white;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-apple);
+}
+
+.toast__action:hover {
+  opacity: 0.85;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ============================================================
+   Scrollbar — macOS style
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+  background-clip: content-box;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  background-clip: content-box;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  background-clip: content-box;
+}
+
+/* ============================================================
+   Utility
+   ============================================================ */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Dashboard Layout & Cards (Apple HIG Styling)
+   ============================================================ */
+.dashboard-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--surface);
+  padding: var(--space-24) var(--space-32);
+}
+
+.dashboard {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid var(--separator-translucent);
+  padding-bottom: var(--space-16);
+}
+
+.dashboard__title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--label-primary);
+}
+
+.dashboard__subtitle {
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+/* Hero — all-time total */
+.dashboard__hero {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-24);
+  border: 0.5px solid var(--separator-translucent);
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--apple-blue) 14%, var(--surface-primary)),
+      var(--surface-primary));
+  box-shadow: 0 4px 16px var(--shadow-card);
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: transform var(--duration-fast) var(--ease-apple),
+              border-color var(--duration-fast) var(--ease-apple);
+}
+
+.dashboard__hero:hover {
+  transform: translateY(-2px);
+  border-color: var(--apple-blue-ring);
+}
+
+.dashboard__hero-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: var(--radius-xl);
+  background: var(--tint-blue);
+  color: var(--apple-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard__hero-icon .material-icons-outlined {
+  font-size: 30px;
+}
+
+.dashboard__hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.dashboard__hero-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--label-secondary);
+}
+
+.dashboard__hero-value {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--label-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard__hero-arrow {
+  margin-left: auto;
+  color: var(--label-tertiary);
+  font-size: 24px;
+}
+
+/* Metric cards */
+.dashboard__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+}
+
+.dashboard__card {
+  background: var(--surface-primary);
+  border: 0.5px solid var(--separator-translucent);
+  border-radius: var(--radius-xl);
+  padding: var(--space-16);
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  text-align: left;
+  font-family: var(--font-family);
+  cursor: pointer;
+  box-shadow: 0 4px 12px var(--shadow-card);
+  transition: transform var(--duration-fast) var(--ease-apple), border-color var(--duration-fast) var(--ease-apple);
+}
+
+.dashboard__card:hover {
+  transform: translateY(-2px);
+  border-color: var(--apple-blue-ring);
+}
+
+.dashboard__card-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard__card-icon--blue { background: var(--tint-blue); color: var(--apple-blue); }
+.dashboard__card-icon--green { background: var(--tint-green); color: var(--apple-green); }
+.dashboard__card-icon--orange { background: var(--tint-orange); color: var(--apple-orange); }
+.dashboard__card-icon--indigo { background: var(--tint-indigo); color: var(--apple-indigo); }
+.dashboard__card-icon--teal { background: var(--tint-teal); color: var(--apple-teal); }
+
+.dashboard__card-icon .material-icons-outlined {
+  font-size: 24px;
+}
+
+.dashboard__card-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dashboard__card-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--label-secondary);
+}
+
+.dashboard__card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--label-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard__card-value--green { color: var(--apple-green); }
+.dashboard__card-value--orange { color: var(--apple-orange); }
+.dashboard__card-value--blue { color: var(--apple-blue); }
+
+/* Panels (chart + recent) */
+.dashboard__panel {
+  background: var(--surface-primary);
+  border: 0.5px solid var(--separator-translucent);
+  border-radius: var(--radius-xl);
+  padding: var(--space-20);
+  box-shadow: 0 4px 12px var(--shadow-card);
+}
+
+.dashboard__section-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-16);
+  color: var(--label-primary);
+}
+
+.dashboard__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-32) 0;
+  gap: var(--space-8);
+  color: var(--label-secondary);
+}
+
+.dashboard__empty-icon {
+  font-size: 40px;
+  color: var(--label-quaternary);
+}
+
+/* 7-day bar chart */
+.dashboard__chart {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--space-8);
+  align-items: end;
+  height: 180px;
+}
+
+.dashboard__bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.dashboard__bar-amount {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--label-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dashboard__bar-track {
+  width: 100%;
+  max-width: 48px;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.dashboard__bar-fill {
+  width: 100%;
+  height: var(--bar-height, 0%);
+  min-height: 3px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: linear-gradient(to top, var(--apple-blue), var(--apple-teal));
+  transition: height var(--duration-slow) var(--ease-spring);
+}
+
+.dashboard__bar-label {
+  font-size: 11px;
+  color: var(--label-tertiary);
+}
+
+/* Recent entries — CSS grid table */
+.dash-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-table__row {
+  display: grid;
+  grid-template-columns: 90px 100px 1fr 110px 120px;
+  align-items: center;
+  gap: var(--space-12);
+  padding: 10px var(--space-12);
+  border-bottom: 0.5px solid var(--separator);
+  font-size: 13px;
+  color: var(--label-primary);
+  transition: background-color var(--duration-fast) var(--ease-apple);
+}
+
+.dash-table__row:last-child {
+  border-bottom: none;
+}
+
+.dash-table__row:not(.dash-table__row--head):hover {
+  background-color: var(--fill-quaternary);
+}
+
+.dash-table__row--head {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--label-secondary);
+}
+
+.dash-table__num {
+  text-align: right;
+}
+
+/* ============================================================
+   View Toggle Segmented Control (Apple HIG)
+   ============================================================ */
+.top-bar__view-toggle {
+  display: flex;
+  background: var(--fill-tertiary);
+  padding: 2px;
+  border-radius: var(--radius-md);
+  margin-left: var(--space-8);
+  border: 0.5px solid rgba(255, 255, 255, 0.05);
+}
+
+.view-toggle__btn {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--label-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-apple);
+}
+
+.view-toggle__btn:hover {
+  color: var(--label-primary);
+}
+
+.view-toggle__btn--active {
+  background: var(--surface-secondary);
+  color: var(--apple-blue);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .view-toggle__btn--active {
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.view-toggle__btn span {
+  font-size: 18px;
+}
+
+/* ============================================================
+   Delete Row Button in Grid
+   ============================================================ */
+.grid-delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--label-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast) var(--ease-apple);
+}
+
+.grid-delete-btn:hover {
+  color: var(--apple-red);
+  background: rgba(255, 69, 58, 0.15);
+}
+
+.grid-delete-btn:active {
+  transform: scale(0.9);
+}
+
+.grid-delete-btn__icon {
+  font-size: 15px;
+}
+
